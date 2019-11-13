@@ -164,12 +164,6 @@
                 <artifactId>druid</artifactId>
                 <version>${druid_version}</version>
             </dependency>
-            <!-- Oracle -->
-            <dependency>
-                <groupId>com.oracle</groupId>
-                <artifactId>ojdbc14</artifactId>
-                <version>11.2.0.1.0</version>
-            </dependency>
         </dependencies>
     </dependencyManagement>
 

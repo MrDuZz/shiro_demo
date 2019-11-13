@@ -15,7 +15,7 @@ CREATE TABLE `admin_user` (
   UNIQUE KEY `UK_username` (`username`),
   KEY `FK_department_id` (`department_id`),
   CONSTRAINT `FK_department_id` FOREIGN KEY (`department_id`) REFERENCES `department` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='后台用户表'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='后台用户表';
 
 
 CREATE TABLE `admin_role` (
