@@ -1,6 +1,7 @@
 package cn.dpy.shiro.entity;
 
 import javax.persistence.*;
+import java.util.List;
 import java.util.Objects;
 
 /**
@@ -11,7 +12,7 @@ import java.util.Objects;
  */
 @Entity
 @Table(name = "admin_role", schema = "shiro_demo", catalog = "")
-public class AdminRole {
+public class SysRole {
 
     /**
      * 主键id
@@ -27,6 +28,34 @@ public class AdminRole {
      * 标识
      */
     private String role;
+
+    //角色 -- 权限关系：多对多关系;
+    @ManyToMany(fetch= FetchType.EAGER)
+    @JoinTable(name="SysRolePermission",joinColumns={
+            @JoinColumn(name="roleId")},inverseJoinColumns={
+            @JoinColumn(name="permissionId")})
+    private List<SysPermission> permissions;
+
+    // 用户 - 角色关系定义;
+    @ManyToMany
+    @JoinTable(name="SysUserRole",joinColumns={@JoinColumn(name="roleId")},inverseJoinColumns={@JoinColumn(name="userId")})
+    private List<AdminUser> users;// 一个角色对应多个用户
+
+    public List<SysPermission> getPermissions() {
+        return permissions;
+    }
+
+    public void setPermissions(List<SysPermission> permissions) {
+        this.permissions = permissions;
+    }
+
+    public List<AdminUser> getUsers() {
+        return users;
+    }
+
+    public void setUsers(List<AdminUser> users) {
+        this.users = users;
+    }
 
     @Id
     @Column(name = "id", nullable = false)
@@ -62,7 +91,7 @@ public class AdminRole {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        AdminRole adminRole = (AdminRole) o;
+        SysRole adminRole = (SysRole) o;
         return id == adminRole.id &&
                 Objects.equals(description, adminRole.description) &&
                 Objects.equals(role, adminRole.role);

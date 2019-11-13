@@ -1,7 +1,10 @@
 package cn.dpy.shiro.entity;
 
+import cn.dpy.shiro.constant.CommonStatus;
+
 import javax.persistence.*;
 import java.sql.Timestamp;
+import java.util.List;
 import java.util.Objects;
 
 /**
@@ -52,7 +55,7 @@ public class AdminUser {
     /**
      * 用户状态 0-正常 1-非法
      */
-    private Integer status;
+    private CommonStatus status;
 
     /**
      * 用户名
@@ -73,6 +76,12 @@ public class AdminUser {
      * 备注
      */
     private String remark;
+
+    @ManyToMany(fetch= FetchType.EAGER)//立即从数据库中进行加载数据;
+    @JoinTable(name = "SysUserRole", joinColumns = {
+            @JoinColumn(name = "id") }, inverseJoinColumns ={
+            @JoinColumn(name = "roleId") })
+    private List<SysRole> roleList;// 一个用户具有多个角色
 
     @Id
     @Column(name = "id", nullable = false)
@@ -146,11 +155,11 @@ public class AdminUser {
 
     @Basic
     @Column(name = "status", nullable = true)
-    public Integer getStatus() {
+    public CommonStatus getStatus() {
         return status;
     }
 
-    public void setStatus(Integer status) {
+    public void setStatus(CommonStatus status) {
         this.status = status;
     }
 

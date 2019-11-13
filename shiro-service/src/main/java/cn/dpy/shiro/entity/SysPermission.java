@@ -1,6 +1,7 @@
 package cn.dpy.shiro.entity;
 
 import javax.persistence.*;
+import java.util.List;
 import java.util.Objects;
 
 /**
@@ -11,7 +12,7 @@ import java.util.Objects;
  */
 @Entity
 @Table(name = "admin_permission", schema = "shiro_demo", catalog = "")
-public class AdminPermission {
+public class SysPermission {
 
     /**
      * 主键id
@@ -42,6 +43,13 @@ public class AdminPermission {
      * 描述
      */
     private String description;
+
+    //角色 -- 权限关系：多对多关系;
+    @ManyToMany
+    @JoinTable(name="SysRolePermission",joinColumns={
+            @JoinColumn(name="permissionId")},inverseJoinColumns={
+            @JoinColumn(name="roleId")})
+    private List<SysRole> roles;
 
     @Id
     @Column(name = "id", nullable = false)
@@ -107,7 +115,7 @@ public class AdminPermission {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        AdminPermission that = (AdminPermission) o;
+        SysPermission that = (SysPermission) o;
         return id == that.id &&
                 Objects.equals(title, that.title) &&
                 Objects.equals(name, that.name) &&

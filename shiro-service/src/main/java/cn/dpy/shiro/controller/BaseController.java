@@ -2,8 +2,11 @@ package cn.dpy.shiro.controller;
 
 
 //import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+
+import javax.servlet.http.HttpServletRequest;
 
 //import javax.servlet.http.Cookie;
 //import javax.servlet.http.HttpServletRequest;
@@ -50,7 +53,7 @@ public class BaseController {
      *//*
     protected String request(HttpServletRequest request, String name) {
         return StringUtils.trimToEmpty(request.getParameter(name));
-    }
+    }*/
 
     public String getRemoteIp(HttpServletRequest request) {
         if (StringUtils.isNotBlank(request.getHeader("X-Real-IP"))) {
@@ -63,6 +66,7 @@ public class BaseController {
         return request.getRemoteAddr();
     }
 
+    /*
     *//**
      * 判断是否是手机浏览器
      *
