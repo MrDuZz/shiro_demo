@@ -1,5 +1,7 @@
 package cn.dpy.shiro.entity;
 
+import lombok.Data;
+
 import javax.persistence.*;
 import java.util.List;
 import java.util.Objects;
@@ -11,12 +13,15 @@ import java.util.Objects;
  * @Version: 1.0
  */
 @Entity
+@Data
 @Table(name = "admin_permission", schema = "shiro_demo", catalog = "")
 public class SysPermission {
 
     /**
      * 主键id
      */
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
     /**
@@ -46,87 +51,9 @@ public class SysPermission {
 
     //角色 -- 权限关系：多对多关系;
     @ManyToMany
-    @JoinTable(name="SysRolePermission",joinColumns={
-            @JoinColumn(name="permissionId")},inverseJoinColumns={
-            @JoinColumn(name="roleId")})
+    @JoinTable(name="admin_role_permission",joinColumns={
+            @JoinColumn(name="rule_id")},inverseJoinColumns={
+            @JoinColumn(name="role_id")})
     private List<SysRole> roles;
 
-    @Id
-    @Column(name = "id", nullable = false)
-    public long getId() {
-        return id;
-    }
-
-    public void setId(long id) {
-        this.id = id;
-    }
-
-    @Basic
-    @Column(name = "title", nullable = true, length = 255)
-    public String getTitle() {
-        return title;
-    }
-
-    public void setTitle(String title) {
-        this.title = title;
-    }
-
-    @Basic
-    @Column(name = "name", nullable = true, length = 255)
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    @Basic
-    @Column(name = "parent_id", nullable = true)
-    public Long getParentId() {
-        return parentId;
-    }
-
-    public void setParentId(Long parentId) {
-        this.parentId = parentId;
-    }
-
-    @Basic
-    @Column(name = "sort", nullable = true)
-    public Integer getSort() {
-        return sort;
-    }
-
-    public void setSort(Integer sort) {
-        this.sort = sort;
-    }
-
-    @Basic
-    @Column(name = "description", nullable = true, length = 255)
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        SysPermission that = (SysPermission) o;
-        return id == that.id &&
-                Objects.equals(title, that.title) &&
-                Objects.equals(name, that.name) &&
-                Objects.equals(parentId, that.parentId) &&
-                Objects.equals(sort, that.sort) &&
-                Objects.equals(description, that.description);
-    }
-
-    @Override
-    public int hashCode() {
-
-        return Objects.hash(id, title, name, parentId, sort, description);
-    }
 }

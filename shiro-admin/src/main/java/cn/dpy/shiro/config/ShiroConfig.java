@@ -39,14 +39,14 @@ public class ShiroConfig {
         // 拦截器
         Map<String, String> filterChainDefinitionMap = new LinkedHashMap<String, String>();
         // 配置退出过滤器，其中的具体退出实现shiro已经完成
-        filterChainDefinitionMap.put("admin/user/logout", "logout");
-        // 过滤链定义，从上向下顺序执行，一般将/**放在最下边 这是一个坑
-        // authc：所有url都必须认证通过才可以访问; anon：所有url都可以匿名访问
-        filterChainDefinitionMap.put("/**", "authc");
+//        filterChainDefinitionMap.put("admin/user/logout", "logout");
+//        // 过滤链定义，从上向下顺序执行，一般将/**放在最下边 这是一个坑
+//        // authc：所有url都必须认证通过才可以访问; anon：所有url都可以匿名访问
+//        filterChainDefinitionMap.put("/**", "authc");
         // 如果不设置默认会自动寻找web工程目录下的"/login.jsp"页面
-        shiroFilterFactoryBean.setLoginUrl("/login");
+//        shiroFilterFactoryBean.setLoginUrl("/login");
         // 登陆成功后要跳转的链接
-        shiroFilterFactoryBean.setSuccessUrl("/index");
+//        shiroFilterFactoryBean.setSuccessUrl("/index");
         // 未授权页面
         shiroFilterFactoryBean.setUnauthorizedUrl("/403");
         shiroFilterFactoryBean.setFilterChainDefinitionMap(filterChainDefinitionMap);
@@ -68,15 +68,15 @@ public class ShiroConfig {
     }
 
 
-    @Bean
-    public HashedCredentialsMatcher hashedCredentialsMatcher() {
-        HashedCredentialsMatcher hashedCredentialsMatcher = new HashedCredentialsMatcher();
-        // 散列算法，这里使用的md5
-        hashedCredentialsMatcher.setHashAlgorithmName("md5");
-        // 散列的次数，比如散列两次，相当于 md5(md5(""))
-        hashedCredentialsMatcher.setHashIterations(2);
-        return hashedCredentialsMatcher;
-    }
+//    @Bean
+//    public HashedCredentialsMatcher hashedCredentialsMatcher() {
+//        HashedCredentialsMatcher hashedCredentialsMatcher = new HashedCredentialsMatcher();
+////        // 散列算法，这里使用的md5
+////        hashedCredentialsMatcher.setHashAlgorithmName("md5");
+////        // 散列的次数，比如散列两次，相当于 md5(md5(""))
+//////        hashedCredentialsMatcher.setHashIterations(1);
+//        return hashedCredentialsMatcher;
+//    }
 
 
     @Bean
@@ -102,7 +102,7 @@ public class ShiroConfig {
     @DependsOn("lifecycleBeanPostProcessor")
     public ShiroRealm shiroRealm(EhCacheManager ehCacheManager) {
         ShiroRealm shiroRealm = new ShiroRealm();
-        shiroRealm.setCredentialsMatcher(hashedCredentialsMatcher());
+//        shiroRealm.setCredentialsMatcher(hashedCredentialsMatcher());
         shiroRealm.setCacheManager(ehCacheManager);
         return shiroRealm;
     }
@@ -149,7 +149,7 @@ public class ShiroConfig {
      * @return
      */
     @Bean(name = "securityManager")
-    @DependsOn({ "adminRealm", "ehCacheManager", "cookieRememberMeManager" })
+    @DependsOn({ "shiroRealm", "ehCacheManager", "cookieRememberMeManager" })
     public DefaultWebSecurityManager getDefaultWebSecurityManager(ShiroRealm realm, EhCacheManager ehCacheManager, CookieRememberMeManager cookieRememberMeManager) {
         DefaultWebSecurityManager defaultWebSecurityManager = new DefaultWebSecurityManager();
         // 设置realm.

@@ -13,10 +13,7 @@ import org.apache.shiro.authc.AuthenticationException;
 import org.apache.shiro.authc.UsernamePasswordToken;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.HashMap;
@@ -47,8 +44,7 @@ public class LoginController extends BaseController {
     private AdminUserService adminService;
 
 
-    @RequestMapping(value = "sign/in")
-    @ResponseBody
+    @RequestMapping(value = "/sign/in", method = RequestMethod.POST)
     public MessageResult doLogin(@RequestParam("username") String username,
                                  @RequestParam("password") String password, HttpServletRequest request) {
         try {

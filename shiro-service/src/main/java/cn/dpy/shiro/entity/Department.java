@@ -1,9 +1,8 @@
 package cn.dpy.shiro.entity;
 
-import javax.persistence.Basic;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
+import lombok.Data;
+
+import javax.persistence.*;
 import java.sql.Timestamp;
 import java.util.Objects;
 
@@ -14,11 +13,14 @@ import java.util.Objects;
  * @Version: 1.0
  */
 @Entity
+@Data
 public class Department {
 
     /**
      * 主键id
      */
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
     /**
@@ -46,82 +48,4 @@ public class Department {
      */
     private Timestamp updateTime;
 
-    @Id
-    @Column(name = "id", nullable = false)
-    public long getId() {
-        return id;
-    }
-
-    public void setId(long id) {
-        this.id = id;
-    }
-
-    @Basic
-    @Column(name = "create_time", nullable = true)
-    public Timestamp getCreateTime() {
-        return createTime;
-    }
-
-    public void setCreateTime(Timestamp createTime) {
-        this.createTime = createTime;
-    }
-
-    @Basic
-    @Column(name = "leader_id", nullable = true)
-    public Long getLeaderId() {
-        return leaderId;
-    }
-
-    public void setLeaderId(Long leaderId) {
-        this.leaderId = leaderId;
-    }
-
-    @Basic
-    @Column(name = "name", nullable = false, length = 255)
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    @Basic
-    @Column(name = "remark", nullable = true, length = 255)
-    public String getRemark() {
-        return remark;
-    }
-
-    public void setRemark(String remark) {
-        this.remark = remark;
-    }
-
-    @Basic
-    @Column(name = "update_time", nullable = true)
-    public Timestamp getUpdateTime() {
-        return updateTime;
-    }
-
-    public void setUpdateTime(Timestamp updateTime) {
-        this.updateTime = updateTime;
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Department that = (Department) o;
-        return id == that.id &&
-                Objects.equals(createTime, that.createTime) &&
-                Objects.equals(leaderId, that.leaderId) &&
-                Objects.equals(name, that.name) &&
-                Objects.equals(remark, that.remark) &&
-                Objects.equals(updateTime, that.updateTime);
-    }
-
-    @Override
-    public int hashCode() {
-
-        return Objects.hash(id, createTime, leaderId, name, remark, updateTime);
-    }
 }
