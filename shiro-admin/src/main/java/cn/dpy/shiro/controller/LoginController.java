@@ -6,7 +6,6 @@ import cn.dpy.shiro.entity.Menu;
 import cn.dpy.shiro.service.AdminUserService;
 import cn.dpy.shiro.service.SysPermissionService;
 import cn.dpy.shiro.service.SysRoleService;
-import com.sparkframework.security.Encrypt;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.AuthenticationException;
@@ -16,6 +15,8 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -50,7 +51,7 @@ public class LoginController extends BaseController {
         try {
             log.info("md5Key {}", md5Key);
 
-            String pass = Encrypt.MD5(password + md5Key);
+            String pass = getMd5(password + md5Key);
             //password = Encrypt.MD5(password + md5Key);
             UsernamePasswordToken token = new UsernamePasswordToken(username, pass, true);
             token.setHost(getRemoteIp(request));
@@ -88,5 +89,31 @@ public class LoginController extends BaseController {
         return success();
     }
 
+    private String getMd5(String str) {
+        MessageDigest md5 = null;
+        byte[] digest = new byte[0];
+        try {
+            md5 = MessageDigest.getInstance("MD5");
+            digest = md5.digest(str.getBytes());
+        } catch (NoSuchAlgorithmException e) {
+            e.printStackTrace();
+            log.info("----->md5加密异常---->");
+        }
+
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < digest.length; i++) {
+            sb.append(Integer.toHexString((digest[i] & 0xFF) | 0x100).substring(1, 3));
+        }
+        return sb.toString();
+    }
+
+
+    private String strToStr(String str, String defaultValue) {
+        if (str != null && !str.isEmpty()) {
+            defaultValue = str;
+        }
+
+        return defaultValue;
+    }
 
 }

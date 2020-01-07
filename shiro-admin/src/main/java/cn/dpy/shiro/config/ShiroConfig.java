@@ -68,6 +68,10 @@ public class ShiroConfig {
     }
 
 
+    /**
+     * 验证用户密码
+     * @return
+     */
 //    @Bean
 //    public HashedCredentialsMatcher hashedCredentialsMatcher() {
 //        HashedCredentialsMatcher hashedCredentialsMatcher = new HashedCredentialsMatcher();
