@@ -1,12 +1,17 @@
 package cn.dpy.shiro.service.impl;
 
+import cn.dpy.shiro.controller.MessageResult;
+import cn.dpy.shiro.dao.AdminUserDao;
+import cn.dpy.shiro.dao.SysPermissionDao;
 import cn.dpy.shiro.dao.SysRoleDao;
+import cn.dpy.shiro.entity.AdminUser;
 import cn.dpy.shiro.entity.Menu;
 import cn.dpy.shiro.entity.SysPermission;
 import cn.dpy.shiro.entity.SysRole;
 import cn.dpy.shiro.service.SysRoleService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Comparator;
 import java.util.List;
@@ -24,6 +29,13 @@ public class SysRoleServiceImpl implements SysRoleService {
     @Autowired
     private SysRoleDao sysRoleDao;
 
+    @Autowired
+    private SysPermissionDao permissionDao;
+
+    @Autowired
+    private AdminUserDao adminDao;
+
+    @Override
     public List<SysPermission> getPermissions(Long roleId) {
         SysRole sysRole = findOne(roleId);
         return sysRole.getPermissions();
@@ -47,6 +59,7 @@ public class SysRoleServiceImpl implements SysRoleService {
      * @param parentId
      * @return
      */
+    @Override
     public List<Menu> toMenus(List<SysPermission> sysPermissions, Long parentId) {
         return sysPermissions.stream()
                 .filter(x -> x.getParentId().equals(parentId))
@@ -64,5 +77,26 @@ public class SysRoleServiceImpl implements SysRoleService {
 
                 )
                 .collect(Collectors.toList());
+    }
+
+    @Override
+    public SysRole save(SysRole sysRole) {
+        return sysRoleDao.save(sysRole);
+    }
+
+    @Override
+    public List<SysPermission> getAllPermission() {
+        return permissionDao.findAll();
+    }
+
+    @Override
+    @Transactional(rollbackFor = Exception.class)
+    public MessageResult deletes(Long id) {
+        List<AdminUser> list = adminDao.findAllByRoleId(id);
+        if (list != null && list.size() > 0) {
+            return MessageResult.error("删除失败，请先删除该角色下的所有用户");
+        }
+        sysRoleDao.deleteById(id);
+        return MessageResult.success("删除成功");
     }
 }

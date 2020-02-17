@@ -69,7 +69,9 @@ public class AdminUser {
     /**
      * 部门id
      */
-    private Long departmentId;
+    @JoinColumn(name = "department_id")
+    @ManyToOne(cascade = CascadeType.MERGE)
+    private Department department;
 
     /**
      * 创建时间

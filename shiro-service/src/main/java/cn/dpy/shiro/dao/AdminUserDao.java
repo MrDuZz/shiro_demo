@@ -8,6 +8,7 @@ import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Date;
+import java.util.List;
 
 /**
  * @Author: dupinyan
@@ -24,4 +25,6 @@ public interface AdminUserDao extends BaseDao<AdminUser> {
     int updateAdminLastTimeAndIp(Date date, String ip, Long adminId);
 
     AdminUser findAdminUserByUsernameAndPassword(String username, String password);
+
+    List<AdminUser> findAllByRoleId(long id);
 }

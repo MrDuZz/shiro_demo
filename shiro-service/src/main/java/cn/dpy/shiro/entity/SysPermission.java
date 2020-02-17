@@ -3,8 +3,10 @@ package cn.dpy.shiro.entity;
 import lombok.Data;
 
 import javax.persistence.*;
+
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import java.util.List;
-import java.util.Objects;
 
 /**
  * @Author: dupinyan
@@ -22,16 +24,20 @@ public class SysPermission {
      */
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
+    private Long id;
 
     /**
      * 权限标题
      */
+    @NotBlank(message = "权限名不能为空")
+    @NotNull(message = "权限名不能为空")
     private String title;
 
     /**
      * 权限名称字符串
      */
+    @NotBlank(message = "权限名不能为空")
+    @NotNull(message = "权限名不能为空")
     private String name;
 
     /**
@@ -51,9 +57,9 @@ public class SysPermission {
 
     //角色 -- 权限关系：多对多关系;
     @ManyToMany
-    @JoinTable(name="admin_role_permission",joinColumns={
-            @JoinColumn(name="rule_id")},inverseJoinColumns={
-            @JoinColumn(name="role_id")})
+    @JoinTable(name = "admin_role_permission", joinColumns = {
+            @JoinColumn(name = "rule_id")}, inverseJoinColumns = {
+            @JoinColumn(name = "role_id")})
     private List<SysRole> roles;
 
 }

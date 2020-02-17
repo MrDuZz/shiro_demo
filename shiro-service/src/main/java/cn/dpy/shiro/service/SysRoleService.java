@@ -1,5 +1,6 @@
 package cn.dpy.shiro.service;
 
+import cn.dpy.shiro.controller.MessageResult;
 import cn.dpy.shiro.entity.Menu;
 import cn.dpy.shiro.entity.SysPermission;
 import cn.dpy.shiro.entity.SysRole;
@@ -21,4 +22,10 @@ public interface SysRoleService {
     List<SysPermission> getPermissions(Long roleId);
 
     List<Menu> toMenus(List<SysPermission> sysPermissions, Long parentId);
+
+    SysRole save(SysRole sysRole);
+
+    List<SysPermission> getAllPermission();
+
+    MessageResult deletes(Long id);
 }
